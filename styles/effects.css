@@ -99,6 +99,18 @@
 }
 .case-card.is-tilted::after { opacity: 1; }
 
+/* ---- Effect: capability pinned scroll-stack (Tier 2, React island: CapabilitiesStack.jsx) ----
+   #capabilities-grid + its #what heading (static, in index.html) are the default and the
+   mobile / no-JS / reduced-motion fallback. JS adds .has-capabilities-stack to <html> only
+   when it actually mounts the React pin; the swap is desktop-only. The React island renders
+   its own pinned heading, so the static one is hidden alongside the grid on desktop. */
+#capabilities-stack-root { display: none; }
+@media (min-width: 768px) {
+  .has-capabilities-stack #capabilities-grid,
+  .has-capabilities-stack #what > .section__head { display: none; }
+  .has-capabilities-stack #capabilities-stack-root { display: block; }
+}
+
 /* ---- Effect: scroll avatar companion  [data-fx~="scroll-avatar"] ----
    Crossfades the standing avatar into the drinking pose as the page scrolls
    (JS sets --scroll 0..1). Default (no JS / reduced motion): static standing. */

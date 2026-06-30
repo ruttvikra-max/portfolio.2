@@ -61,13 +61,16 @@
   <link rel="stylesheet" href="styles/base.css" />
   <link rel="stylesheet" href="styles/components.css" />
   <link rel="stylesheet" href="styles/effects.css" />
+  <!-- Tier 2 React island styles (built by Vite from src/components/*.css → styles/tier2.css) -->
+  <link rel="stylesheet" href="styles/tier2.css" />
 
   <!-- anime.js v4 — self-hosted via node_modules (npm install animejs@4) -->
   <script type="importmap">
   {
     "imports": {
       "animejs": "./node_modules/animejs/dist/bundles/anime.esm.js",
-      "animejs/text": "./node_modules/animejs/dist/modules/text/index.js"
+      "animejs/text": "./node_modules/animejs/dist/modules/text/index.js",
+      "lenis": "./node_modules/lenis/dist/lenis.mjs"
     }
   }
   </script>
@@ -125,7 +128,7 @@
         <p class="eyebrow">What I do</p>
         <h2 id="what-title">Five things, done with care.</h2>
       </div>
-      <div class="capabilities">
+      <div class="capabilities" id="capabilities-grid">
 
         <article class="cap-card" data-reveal>
           <div class="cap-card__bg" aria-hidden="true"></div>
@@ -193,6 +196,7 @@
         </article>
 
       </div>
+      <div id="capabilities-stack-root" class="capabilities-stack-root"></div>
     </section>
 
     <!-- WORK (dark) -->

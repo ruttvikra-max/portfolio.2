@@ -7,10 +7,10 @@ export default defineConfig({
     rollupOptions: {
       input: 'src/main.jsx',
       output: {
-        dir: 'scripts',
-        entryFileNames: 'tier2.js',
-        chunkFileNames: 'tier2-[name].js',
-        assetFileNames: '../styles/tier2.[ext]',
+        dir: '.',
+        entryFileNames: 'scripts/tier2.js',
+        chunkFileNames: 'scripts/tier2-[name].js',
+        assetFileNames: 'styles/tier2.[ext]',
         format: 'es',
         manualChunks: undefined,
       },

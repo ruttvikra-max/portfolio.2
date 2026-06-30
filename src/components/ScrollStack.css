@@ -1,0 +1,30 @@
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  /* embedded in normal page flow (useWindowScroll mode) — the window scrolls,
+     this wrapper just needs to lay out in-flow, not own its own scrollbox */
+  height: auto;
+  overflow: visible;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.scroll-stack-inner {
+  padding: 0 0 20vh;
+}
+
+.scroll-stack-card {
+  transform-origin: top center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  box-sizing: border-box;
+  position: relative;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
