@@ -12,7 +12,8 @@
       "name": "case-study",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "case-study-engine/site", "run", "dev"],
-      "autoPort": true
+      "port": 5173,
+      "autoPort": false
     }
   ]
 }
