@@ -20,7 +20,7 @@ Add an attribute to any element:
 |---|---|---|---|
 | Scroll reveal | `data-reveal` | row stagger via `effects.css` nth-child | CSS + IntersectionObserver |
 | Hero text reveal | `data-fx="splittext"` | `data-fx-split="words\|chars"`, `data-fx-stagger="<ms>"`, `data-fx-duration="<ms>"` | anime.js (lazy via CDN) |
-| Hero entrance | (auto on `.hero__copy` / `.hero__stage-wrap`) | edit `heroFade` / `heroRise` in `effects.css` | CSS |
+| Hero entrance | (auto on `.hero__copy`) | edit `heroFade` in `effects.css` | CSS |
 | Pour button | `.fx-pour` (class) | uses `--accent-gradient` | CSS |
 | Directional fill button | `data-fx="fill"` | `--fx-fill-color`, `--fx-fill-dur` (placeholders) | CSS + JS pointer origin |
 | Scroll avatar companion | `data-fx="scroll-avatar"` | crossfades standing→drinking via `--scroll` | CSS + JS scroll progress |

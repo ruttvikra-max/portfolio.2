@@ -39,9 +39,7 @@
 
 /* ---- Effect: hero entrance (CSS, on load) ---- */
 @keyframes heroFade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes heroRise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
 .js-motion .hero__copy       { animation: heroFade 0.8s var(--ease-pour) backwards; }
-.js-motion .hero__stage-wrap { animation: heroRise 1s var(--ease-pour) 0.1s backwards; }
 
 /* ---- Effect: "pour" button micro-interaction  .fx-pour ----
    Heat gradient pours up into the button on hover; weighted press on click.

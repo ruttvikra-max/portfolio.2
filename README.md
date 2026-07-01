@@ -15,7 +15,7 @@ of this without changing the tokens or markup.
 ├── styles/
 │   ├── tokens.css       # Design tokens: primitives → semantic (re-theme here)
 │   └── base.css         # Reset, fonts, components, responsive, reduced-motion
-├── fonts/               # Rondured (display) + Roboto (body) — .ttf for now
+├── fonts/               # Mileast (display) + Roboto (body)
 └── Assets/              # Imagery / 3D assets (added in later tiers)
 ```
 
@@ -36,7 +36,7 @@ To re-theme the whole site, edit the **primitives** block in `styles/tokens.css`
 | Cool neutral | `--coffee-steam` | `#8082A6` |
 | Heat (brew/CTA only) | `--heat-300/500/700` | `#F2C230 / #F2921D / #F24F13` |
 
-Type: **Rondured** (display) + **Roboto** (body). Two weights only (400/500).
+Type: **Mileast** (display) + **Roboto** (body). Two weights only (400/500).
 
 ## Run it
 

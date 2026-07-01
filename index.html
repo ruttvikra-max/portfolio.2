@@ -54,7 +54,7 @@
   </script>
 
   <!-- Tier 0: critical styles only, no JS required to read or navigate. -->
-  <link rel="preload" href="fonts/Rondured-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/Mileast-Regular.otf" as="font" type="font/otf" crossorigin />
   <link rel="preload" href="fonts/Roboto-Regular.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="fonts/Roboto-Medium.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="styles/tokens.css" />
@@ -113,11 +113,6 @@
             Get in Touch
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-        </div>
-
-        <div class="hero__stage-wrap">
-
-          <canvas id="hero-canvas" class="hero__canvas" aria-label="Clay espresso machine animation"></canvas>
         </div>
       </div>
     </section>
@@ -203,7 +198,7 @@
     <section class="section" id="work" aria-labelledby="work-title">
       <div class="work-frame">
 
-          <!-- Header: tagline copy (left) | 3D placeholder (right) -->
+          <!-- Header -->
           <div class="work__header" data-reveal>
             <div class="work__copy">
               <span class="work__pill">Building digital products</span>
@@ -212,7 +207,6 @@
                 <p class="work__sub">Healthcare, SaaS, and enterprise platforms designed to simplify operational complexity through systems thinking.</p>
               </div>
             </div>
-            <canvas id="work-canvas" class="work__canvas" aria-label="Animation companion — work section"></canvas>
           </div>
 
           <!-- Horizontal case study rail -->
@@ -252,23 +246,6 @@
               </div>
             </a>
 
-            <a class="case-card" href="#" data-reveal aria-label="Case study: Mobile onboarding">
-              <div class="case-card__cover"></div>
-              <div class="case-card__body">
-                <div class="case-card__top">
-                  <span class="case-card__name">Mobile onboarding</span>
-                  <span class="case-card__tags">Interface &middot; 2024</span>
-                </div>
-                <p class="case-card__desc">+18% activation from a 5-screen flow that meets users where their intent actually is.</p>
-                <ul class="case-card__list">
-                  <li>Drop-off at step 3 cut from 42% to 18%</li>
-                  <li>Personalised across 3 job-to-be-done segments</li>
-                  <li>Validated with 12 moderated usability sessions</li>
-                </ul>
-                <span class="case-card__cta">Read case study <span aria-hidden="true">→</span></span>
-              </div>
-            </a>
-
           </div><!-- /case-rail -->
 
       </div><!-- /work-frame -->
@@ -284,89 +261,14 @@
             <span class="shelf-eyebrow-chip">my learning journey</span>
             <h2 id="shelf-title">Books that shaped me</h2>
             <p class="shelf-editorial__body">A collection that influenced how I think about products, systems, and people.</p>
-            <p class="shelf-hint">** Click any spine to read what it taught me</p>
+            <p class="shelf-hint">Click any cover to look it up.</p>
           </div>
 
-          <div class="bookcase-wrap">
-            <img class="bookcase-frame" src="Assets/source/bookshelf.png" alt="" draggable="false">
-            <div class="bookcase-books" role="list" aria-label="Recommended books">
-
-              <!-- Row 1 — sits in upper shelf compartment -->
-              <div class="bookcase__row bookcase__row--1">
-                <button class="spine s1" role="listitem"
-                  data-title="Book Title One" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title One"><span class="spine__label">Book Title One</span></button>
-                <button class="spine s2" role="listitem"
-                  data-title="Book Title Two" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Two"><span class="spine__label">Book Title Two</span></button>
-                <button class="spine s3" role="listitem"
-                  data-title="Book Title Three" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Three"><span class="spine__label">Book Title Three</span></button>
-                <button class="spine s4" role="listitem"
-                  data-title="Book Title Four" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Four"><span class="spine__label">Book Title Four</span></button>
-                <button class="spine s5" role="listitem"
-                  data-title="Book Title Five" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Five"><span class="spine__label">Book Title Five</span></button>
-              </div>
-
-              <!-- Row 2 — sits in lower shelf compartment -->
-              <div class="bookcase__row bookcase__row--2">
-                <button class="spine s6" role="listitem"
-                  data-title="Book Title Six" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Six"><span class="spine__label">Book Title Six</span></button>
-                <button class="spine s7" role="listitem"
-                  data-title="Book Title Seven" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Seven"><span class="spine__label">Book Title Seven</span></button>
-                <button class="spine s8" role="listitem"
-                  data-title="Book Title Eight" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Eight"><span class="spine__label">Book Title Eight</span></button>
-                <button class="spine s9" role="listitem"
-                  data-title="Book Title Nine" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Nine"><span class="spine__label">Book Title Nine</span></button>
-                <button class="spine s10" role="listitem"
-                  data-title="Book Title Ten" data-author="Author Name"
-                  data-amazon="#" data-takeaway="Takeaway coming soon."
-                  aria-label="Book Title Ten"><span class="spine__label">Book Title Ten</span></button>
-              </div>
-
-            </div>
-          </div>
+          <!-- Tier 2 React island: Masonry book-cover grid (built by Vite → scripts/tier2.js) -->
+          <div id="bookshelf-masonry" class="bookshelf-masonry" role="list" aria-label="Books that shaped me"></div>
 
         </div><!-- /.shelf-left -->
 
-        <canvas id="shelf-canvas" class="shelf__canvas" aria-label="Animation companion — bookshelf section"></canvas>
-
-      </div>
-
-      <!-- Book modal — opens when a spine is clicked -->
-      <div class="book-modal-backdrop" id="book-modal" role="dialog" aria-modal="true"
-           aria-labelledby="modal-book-title" aria-hidden="true">
-        <div class="book-modal">
-          <button class="book-modal__close" id="modal-close" aria-label="Close">✕</button>
-          <div class="book-modal__header">
-            <div class="book-modal__chip" id="modal-chip" aria-hidden="true"></div>
-            <div class="book-modal__header-text">
-              <h3 class="book-modal__title" id="modal-book-title"></h3>
-              <p class="book-modal__author" id="modal-author"></p>
-            </div>
-          </div>
-          <hr class="book-modal__divider">
-          <p class="book-modal__label">WHAT IT TAUGHT ME</p>
-          <div class="book-modal__body-box">
-            <p class="book-modal__body" id="modal-body"></p>
-          </div>
-          <a class="book-modal__amazon" id="modal-amazon" href="#" target="_blank" rel="noopener noreferrer">Buy on Amazon →</a>
-        </div>
       </div>
     </section>
   </main>
@@ -457,9 +359,6 @@
 
   <!-- Tier 2 React island: SplashCursor + card tilt (built by Vite → scripts/tier2.js) -->
   <script type="module" src="scripts/tier2.js"></script>
-
-  <!-- Scroll-linked video companion (ACT II + ACT III) — desktop only, no build step -->
-  <script src="src/video-scrub.js" defer></script>
 
 </body>
 </html>

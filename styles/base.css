@@ -4,10 +4,14 @@
 
 /* ---------- FONTS ---------- */
 @font-face {
-  font-family: "Rondured";
-  src: url("../fonts/Rondured-Regular.woff2") format("woff2"),
-       url("../fonts/Rondured-Regular.ttf") format("truetype");
+  font-family: "Mileast";
+  src: url("../fonts/Mileast-Regular.otf") format("opentype");
   font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Mileast";
+  src: url("../fonts/Mileast-Italic.otf") format("opentype");
+  font-weight: 400; font-style: italic; font-display: swap;
 }
 @font-face {
   font-family: "Roboto";
@@ -97,7 +101,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 .brand { font-family: var(--font-display); font-size: 1.6rem; color: var(--text-primary); }
 .nav__links { display: flex; align-items: center; gap: var(--space-3); }
 .nav__links a.nav-anchor { font-size: 1rem; font-weight: 500; color: var(--text-primary); transition: opacity var(--dur-micro) var(--ease-ui); }
-.nav__links a.nav-anchor:hover { opacity: 0.6; }
+@media (hover: hover) and (pointer: fine) {
+  .nav__links a.nav-anchor:hover { opacity: 0.6; }
+}
 .nav__links a.nav-anchor.is-active {
   color: var(--text-primary);
   opacity: 1;
@@ -116,23 +122,22 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 }
 @media (max-width: 720px) { .nav__links .nav-anchor { display: none; } }
 
-/* ---------- HERO (side-by-side: pill statement + mug) ---------- */
-.hero { padding-block: var(--space-5) var(--space-7); padding-inline: 56px; }
-.hero__inner { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: var(--space-5); align-items: center; }
+/* ---------- HERO (typography-led statement) ---------- */
+.hero { padding-block: var(--space-6) var(--space-5); padding-inline: 56px; }
+.hero__inner { max-width: 900px; }
 .hero__copy { min-width: 0; }
-.hero__stage-wrap { display: flex; flex-direction: column; gap: var(--space-4); align-items: center; }
-.hero__stage-wrap .stage { width: 100%; max-width: 460px; }
 
-/* connective text in Roboto (Rondured lacks punctuation glyphs) */
+/* connective text in Roboto — keeps the sentence readable at body weight
+   while the identity words below pop in the display font */
 .hero-statement {
   font-family: var(--font-body); font-weight: 500;
-  text-transform: uppercase; letter-spacing: 0.2px;
+  letter-spacing: 0.2px;
   font-size: clamp(1.3rem, 2.9vw, 2.5rem);
   line-height: 1.55; color: var(--text-primary);
   max-width: none; margin: 0 0 var(--space-4);
 }
 
-/* highlighted pill — identity words in Rondured display, white on warm */
+/* highlighted pill — identity words in the display font, white on warm */
 .hl {
   font-family: var(--font-display);
   display: inline-flex; align-items: center;
@@ -155,20 +160,8 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   padding: 9px 20px;
 }
 
-/* hero stage — video canvas (ACT I) */
-.hero__canvas {
-  width: 100%;
-  max-width: 460px;
-  aspect-ratio: 1 / 1;
-  display: block;
-  border-radius: 20px;
-  background: var(--coffee-crema);   /* placeholder tint while video preloads */
-}
-
 @media (max-width: 880px) {
-  .hero__inner { grid-template-columns: 1fr; gap: var(--space-4); }
-  .hero__stage-wrap { order: -1; }
-  .hero__stage-wrap .stage { max-width: 360px; }
+  .hero__inner { max-width: none; }
 }
 
 
@@ -278,12 +271,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   overflow: hidden;
 }
 
-/* Header: copy left | 3D placeholder right */
+/* Header */
 .work__header {
-  display: grid;
-  grid-template-columns: 1fr 0.9fr;
-  gap: var(--space-5);
-  align-items: stretch;
+  max-width: 760px;
   padding: 72px 56px 48px;
 }
 
@@ -315,7 +305,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 }
 
 .work__headline {
-  font-family: var(--font-body);
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(1.15rem, 2.3vw, 1.85rem);
   line-height: 1.2;
@@ -330,34 +320,24 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   color: var(--text-muted-inv);
 }
 
-/* Video canvas — work section right column */
-.work__canvas {
-  display: block;
-  width: 100%;
-  min-height: 260px;
-  border-radius: var(--radius-md);
-  background: rgba(245, 236, 210, 0.05);
-}
-
 /* Case study horizontal rail */
+/* Desktop: exactly 2 case cards side by side, filling the row instead of
+   leaving a dead gap. Falls back to a horizontal scroll rail on touch
+   widths below, where swipe is the natural interaction. */
 .case-rail {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
-  overflow-x: auto;
+  max-width: var(--container);
+  margin-inline: auto;
   padding: 0 56px 72px;
-  scroll-snap-type: x mandatory;
-  scroll-padding-left: 56px;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
 }
-.case-rail::-webkit-scrollbar { display: none; }
 
 /* Card colour — cream on dark (Option A: active)
    Alt B: background: color-mix(in srgb, var(--coffee-crema) 10%, var(--surface-inverse))  [near-dark warm tint]
    Alt C: background: color-mix(in srgb, var(--coffee-roast) 55%, var(--coffee-crema))     [espresso-brown] */
 .case-card {
-  flex: 0 0 clamp(280px, 40vw, 440px);
-  scroll-snap-align: start;
+  min-width: 0;
   background: var(--coffee-crema);
   border-radius: var(--radius-md);
   overflow: hidden;
@@ -367,7 +347,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   text-decoration: none;
   transition: transform var(--dur-ui) var(--ease-pour);
 }
-.case-card:hover { transform: translateY(-6px); }
+@media (hover: hover) and (pointer: fine) {
+  .case-card:hover { transform: translateY(-6px); }
+}
+.case-card:active { transform: scale(0.98); transition: transform 120ms var(--ease-pour); }
 
 .case-card__cover {
   aspect-ratio: 4 / 3;
@@ -381,7 +364,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   transition: opacity var(--dur-ui) var(--ease-ui);
   mix-blend-mode: multiply;
 }
-.case-card:hover .case-card__cover::after { opacity: 0.22; }
+@media (hover: hover) and (pointer: fine) {
+  .case-card:hover .case-card__cover::after { opacity: 0.22; }
+}
 
 .case-card__body {
   padding: 16px;
@@ -452,20 +437,30 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   border-top: 1px solid rgba(41, 48, 61, 0.1);
   transition: gap var(--dur-micro) var(--ease-pour);
 }
-.case-card:hover .case-card__cta { gap: 10px; }
+@media (hover: hover) and (pointer: fine) {
+  .case-card:hover .case-card__cta { gap: 10px; }
+}
 
-/* Work responsive — adaptive 56 → 40 → 24 px gutter */
+/* Work responsive — adaptive 56 → 40 → 24 px gutter.
+   Below 860px, switch the rail from a 2-col grid to a horizontal swipe
+   rail — touch widths don't have room for 2 cards side by side. */
 @media (max-width: 860px) {
   .work__header {
-    grid-template-columns: 1fr;
     padding: 56px 40px 40px;
   }
-  .work__canvas { min-height: 180px; }
   .case-rail {
+    display: flex;
+    gap: var(--space-3);
+    overflow-x: auto;
+    max-width: none;
     padding: 0 40px 56px;
+    scroll-snap-type: x mandatory;
     scroll-padding-left: 40px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  .case-card { flex: 0 0 clamp(260px, 72vw, 380px); }
+  .case-rail::-webkit-scrollbar { display: none; }
+  .case-card { flex: 0 0 clamp(260px, 72vw, 380px); scroll-snap-align: start; }
 }
 @media (max-width: 540px) {
   .work__header { padding: 40px 24px 32px; }
@@ -479,14 +474,10 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 /* ---------- BOOKSHELF ---------- */
 .shelf-section { background: #F6ECD3; color: var(--coffee-roast); }
 
-/* Two-column: left = editorial + bookcase stacked | right = 3D model slot
-   Proportions from Figma: 725px left : 586px right at 1440px viewport (~55:45) */
 .shelf-inner {
   padding-inline: clamp(32px, 4vw, 56px);
-  display: grid;
-  grid-template-columns: 1fr clamp(260px, 38%, 520px);
-  gap: clamp(40px, 6vw, 80px);
-  align-items: center;
+  max-width: 900px;
+  margin-inline: auto;
 }
 
 /* Left column: editorial on top, bookcase below */
@@ -529,157 +520,11 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   color: #5A6884;
 }
 
-/* Clay bookcase — image frame + HTML spine overlay */
-.bookcase-wrap {
+/* Book-cover masonry (Tier 2 React island, src/components/Masonry.jsx) */
+.bookshelf-masonry {
   position: relative;
   width: 100%;
-}
-/* mix-blend-mode: multiply dissolves the white image bg into the kraft surface */
-.bookcase-frame {
-  display: block;
-  width: 100%;
-  height: auto;
-  mix-blend-mode: multiply;
-  user-select: none;
-  pointer-events: none;
-}
-.bookcase-books {
-  position: absolute;
-  inset: 0;
-}
-
-/* Rows absolutely positioned — percentages match bookshelf.png geometry */
-.bookcase__row {
-  position: absolute;
-  left: 9%; right: 9%;
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-}
-/* Top shelf: full compartment height — ceiling at ~26%, floor at ~49% */
-.bookcase__row--1 { top: 26%; bottom: 49%; justify-content: flex-start; }
-/* Bottom shelf: full compartment height — ceiling at ~57%, floor at ~17% */
-.bookcase__row--2 { top: 57%; bottom: 17%; justify-content: flex-end; }
-
-/* Book spines */
-.spine {
-  display: flex; align-items: center; justify-content: center;
-  flex: 0 0 auto; border: none; cursor: pointer;
-  border-radius: 3px 3px 0 0;
-  box-shadow: inset -3px 0 8px rgba(0,0,0,0.22), 2px 0 4px rgba(0,0,0,0.14);
-  transition: transform 220ms var(--ease-pour);
-  padding: 0; overflow: hidden;
-  height: 84%;
-}
-.spine:hover  { transform: translateY(-7%); }
-.spine:active { transform: translateY(-3%) scale(0.98); }
-.spine:focus-visible { outline: 2px solid var(--heat-500); outline-offset: 2px; }
-.spine__label {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-family: var(--font-body);
-  font-size: 8.5px;
-  font-weight: 500;
-  color: #F6ECD3;
-  letter-spacing: 0.04em;
-  line-height: 1.3;
-  padding: 10px 0;
-  text-align: center;
-  -webkit-font-smoothing: antialiased;
-  pointer-events: none;
-}
-
-/* Spine colors from Figma — repeating [red, blue, orange, green, gold] pattern */
-.spine.s1  { background: #B5463D; width: 39px; height: 96%; }
-.spine.s2  { background: #2A4665; width: 44px; height: 88%; }
-.spine.s3  { background: #C3611B; width: 44px; height: 94%; }
-.spine.s4  { background: #4A6959; width: 44px; height: 90%; }
-.spine.s5  { background: #C4913A; width: 44px; height: 86%; margin-left: auto; }
-.spine.s6  { background: #B5463D; width: 39px; height: 94%; margin-right: auto; }
-.spine.s7  { background: #2A4665; width: 44px; height: 100%; }
-.spine.s8  { background: #C3611B; width: 44px; height: 88%; }
-.spine.s9  { background: #4A6959; width: 44px; height: 96%; }
-.spine.s10 { background: #C4913A; width: 44px; height: 92%; }
-
-/* Video canvas — bookshelf section right column */
-.shelf__canvas {
-  display: block;
-  width: 100%;
-  align-self: stretch;
-  min-height: clamp(300px, 50vw, 520px);
-  border-radius: 12px;
-  background: transparent;
-}
-
-/* ── Book modal ── */
-.book-modal-backdrop {
-  position: fixed; inset: 0; z-index: 200;
-  background: rgba(29,38,51,0.72);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  display: flex; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity var(--dur-ui) var(--ease-pour);
-}
-.book-modal-backdrop.is-open { opacity: 1; pointer-events: auto; }
-.book-modal {
-  position: relative;
-  background: #F6ECD3;
-  border-radius: 20px;
-  padding: 24px;
-  max-width: 520px;
-  width: calc(100% - 48px);
-  transform: translateY(10px) scale(0.96);
-  transition: transform 280ms var(--ease-pour);
-}
-.book-modal-backdrop.is-open .book-modal { transform: none; }
-
-/* Close — absolute top-right */
-.book-modal__close {
-  position: absolute;
-  top: 20px; right: 20px;
-  width: 36px; height: 36px; border-radius: 50%;
-  border: 1.5px solid color-mix(in srgb, var(--coffee-roast) 20%, transparent);
-  background: transparent;
-  cursor: pointer; font-size: 14px; color: var(--coffee-roast);
-  display: flex; align-items: center; justify-content: center;
-  transition: background 160ms ease-out;
-}
-.book-modal__close:hover { background: color-mix(in srgb, var(--coffee-roast) 10%, transparent); }
-
-/* Header row: chip + text */
-.book-modal__header {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 16px;
-  padding-right: 44px;
-}
-.book-modal__chip { width: 46px; height: 46px; border-radius: 8px; flex-shrink: 0; }
-.book-modal__header-text { display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-.book-modal__title { font-size: var(--step-2); font-weight: 700; color: var(--coffee-roast); line-height: 1.2; }
-.book-modal__author { font-size: var(--step-caption); color: color-mix(in srgb, var(--coffee-roast) 55%, transparent); }
-
-.book-modal__divider { border: none; height: 1px; background: color-mix(in srgb, var(--coffee-roast) 12%, transparent); margin-bottom: 14px; }
-.book-modal__label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--heat-500); margin-bottom: 10px; }
-
-/* White inset body box */
-.book-modal__body-box {
-  background: #fff;
-  border-radius: 12px;
-  padding: 16px;
-  min-height: 180px;
-  margin-bottom: 16px;
-}
-.book-modal__body { font-size: var(--step-body); line-height: 1.68; color: color-mix(in srgb, var(--coffee-roast) 75%, transparent); }
-
-.book-modal__amazon { font-size: var(--step-caption); font-weight: 500; color: var(--heat-500); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
-.book-modal__amazon:hover { text-decoration: underline; }
-
-/* Mobile: bottom sheet */
-@media (max-width: 480px) {
-  .book-modal-backdrop { align-items: flex-end; }
-  .book-modal { border-radius: 20px 20px 0 0; max-width: 100%; width: 100%; }
+  min-height: clamp(420px, 55vw, 560px);
 }
 
 /* ---------- IKIGAI QUOTE SECTION ---------- */
@@ -731,8 +576,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 /* ---------- FOOTER ---------- */
 .footer { background: var(--surface-inverse); color: var(--text-on-inverse); }
 
-/* body font: "Your cup's empty." contains an apostrophe — Rondured drops it silently */
-.footer h2 { font-family: var(--font-body); font-weight: 500; font-size: var(--step-h1); margin-top: var(--space-1); }
+.footer h2 { font-weight: 500; font-size: var(--step-h1); margin-top: var(--space-1); }
 
 /* Row 1: headline+CTA (left) | note card (right) */
 .footer__main {
@@ -853,11 +697,14 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
               border-color var(--dur-ui) var(--ease-pour);
 }
 .social-tile { --fx-fill-color: var(--heat-700); }
-.social-tile:hover {
-  background: var(--heat-700);
-  border-color: transparent;
-  transform: translateY(-4px);
+@media (hover: hover) and (pointer: fine) {
+  .social-tile:hover {
+    background: var(--heat-700);
+    border-color: transparent;
+    transform: translateY(-4px);
+  }
 }
+.social-tile:active { transform: scale(0.94); transition: transform 120ms var(--ease-pour); }
 .social-tile svg { width: clamp(18px, 2.6vw, 26px); height: clamp(18px, 2.6vw, 26px); }
 /* refill button → styles/components.css (.btn-outlined) */
 
@@ -911,8 +758,6 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   .footer__main,
   .footer__bottom,
   .colophon { padding-inline: 40px; }
-  .shelf-inner { grid-template-columns: 1fr; gap: 28px; }
-  .shelf__canvas { min-height: 200px; }
 }
 @media (max-width: 540px) {
   .hero,
