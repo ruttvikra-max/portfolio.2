@@ -82,6 +82,26 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 }
 .skip-link:focus { left: 12px; }
 .shell { width: min(100% - calc(var(--gutter) * 2), var(--container)); margin-inline: auto; }
+
+/* ── ONE CONTENT CONTAINER ────────────────────────────────────────
+   Every section's inner content aligns to the same centered column,
+   so left/right edges line up down the whole page. Colored section
+   backgrounds still span full-bleed; only their content is contained.
+   This is the single source of horizontal alignment — sections must
+   NOT set their own padding-inline / max-width / margin-inline. */
+.hero__inner,
+#what .section__head,
+#what .capabilities,
+.work__header,
+.case-rail,
+.shelf-inner,
+.footer__main,
+.footer__bottom,
+.colophon {
+  width: min(100% - calc(var(--gutter) * 2), var(--container));
+  margin-inline: auto;
+}
+
 .section { padding-block: var(--space-6); }
 .section__head { margin-bottom: var(--space-5); }
 .section__head h2 { font-size: var(--step-h2); margin-top: var(--space-1); }
@@ -90,7 +110,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 /* ---------- NAV (floating rounded bar) ---------- */
 .nav { position: sticky; top: 0; z-index: 50; padding-top: 16px; }
 .nav__inner {
-  width: min(100% - 32px, var(--container)); margin-inline: auto;
+  width: min(100% - calc(var(--gutter) * 2), var(--container)); margin-inline: auto;
   display: flex; align-items: center; justify-content: space-between;
   padding: 12px 16px 12px 28px;
   background: color-mix(in srgb, var(--coffee-crema) 85%, transparent);
@@ -123,9 +143,34 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 @media (max-width: 720px) { .nav__links .nav-anchor { display: none; } }
 
 /* ---------- HERO (typography-led statement) ---------- */
-.hero { padding-block: var(--space-6) var(--space-5); padding-inline: 56px; }
-.hero__inner { max-width: 900px; }
-.hero__copy { min-width: 0; }
+/* Horizontal alignment comes from the shared container on .hero__inner;
+   .hero only owns vertical rhythm. */
+.hero { padding-block: var(--space-6) var(--space-5); }
+.hero__copy { max-width: 900px; min-width: 0; }
+
+/* Lanyard 3D island — mounted by React (src/main.jsx) only when JS is
+   available, motion isn't reduced, and the viewport is wide enough. Hidden
+   by default so a no-JS/reduced-motion visitor sees the original one-column
+   hero with no empty gap.
+   The badge column deliberately ignores .hero's own top padding (via the
+   negative `top` offset below) so it starts flush under the sticky nav
+   instead of centered mid-page, while .hero__copy keeps its padding
+   untouched — the two columns are independently positioned "cards" sharing
+   one grid row, not a single centered unit. */
+.hero-lanyard-root { display: none; }
+.has-hero-lanyard .hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: center;
+  gap: var(--space-5);
+}
+.has-hero-lanyard .hero-lanyard-root {
+  display: block;
+  position: relative;
+  top: calc(-1 * var(--space-6));
+  height: 560px;
+  cursor: grab;
+}
 
 /* connective text in Roboto — keeps the sentence readable at body weight
    while the identity words below pop in the display font */
@@ -160,8 +205,9 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   padding: 9px 20px;
 }
 
-@media (max-width: 880px) {
-  .hero__inner { max-width: none; }
+@media (max-width: 860px) {
+  .has-hero-lanyard .hero__inner { grid-template-columns: 1fr; }
+  .has-hero-lanyard .hero-lanyard-root { display: none; }
 }
 
 
@@ -271,13 +317,14 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   overflow: hidden;
 }
 
-/* Header */
+/* Header — width from the shared container; readable measure on the copy
+   so the headline wraps sanely while its left edge lines up with the rail. */
 .work__header {
-  max-width: 760px;
-  padding: 72px 56px 48px;
+  padding-block: var(--space-6) var(--space-4);
 }
 
 .work__copy {
+  max-width: 760px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -328,9 +375,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
-  max-width: var(--container);
-  margin-inline: auto;
-  padding: 0 56px 72px;
+  padding-block: 0 var(--space-6);
 }
 
 /* Card colour — cream on dark (Option A: active)
@@ -369,7 +414,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 }
 
 .case-card__body {
-  padding: 16px;
+  padding: var(--space-3);
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
@@ -445,17 +490,19 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
    Below 860px, switch the rail from a 2-col grid to a horizontal swipe
    rail — touch widths don't have room for 2 cards side by side. */
 @media (max-width: 860px) {
-  .work__header {
-    padding: 56px 40px 40px;
-  }
+  .work__header { padding-block: var(--space-5) var(--space-4); }
+  /* Touch widths: rail becomes a full-bleed horizontal swipe strip, so it
+     opts out of the shared container and uses the gutter as its edge inset. */
   .case-rail {
     display: flex;
     gap: var(--space-3);
     overflow-x: auto;
+    width: auto;
     max-width: none;
-    padding: 0 40px 56px;
+    margin-inline: 0;
+    padding: 0 var(--gutter) var(--space-5);
     scroll-snap-type: x mandatory;
-    scroll-padding-left: 40px;
+    scroll-padding-left: var(--gutter);
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
@@ -463,22 +510,15 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   .case-card { flex: 0 0 clamp(260px, 72vw, 380px); scroll-snap-align: start; }
 }
 @media (max-width: 540px) {
-  .work__header { padding: 40px 24px 32px; }
-  .case-rail {
-    padding: 0 24px 40px;
-    scroll-padding-left: 24px;
-  }
+  .work__header { padding-block: var(--space-4) var(--space-3); }
+  .case-rail { padding-block: 0 var(--space-4); }
   .case-card { flex: 0 0 85vw; }
 }
 
 /* ---------- BOOKSHELF ---------- */
 .shelf-section { background: #F6ECD3; color: var(--coffee-roast); }
 
-.shelf-inner {
-  padding-inline: clamp(32px, 4vw, 56px);
-  max-width: 900px;
-  margin-inline: auto;
-}
+/* .shelf-inner width/inset come from the shared container. */
 
 /* Left column: editorial on top, bookcase below */
 .shelf-left {
@@ -535,10 +575,14 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 }
 
 
+/* Centered editorial pull-quote — a deliberately narrower column than the
+   page container, so the corner quote-marks bracket the text tightly. */
 .ikigai-section__frame {
   display: flex;
   flex-direction: column;
-  padding-inline: 56px;
+  max-width: 760px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
 }
 
 .ikigai-section__mark {
@@ -586,7 +630,6 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   align-items: start;
   padding-top: var(--space-6);
   padding-bottom: var(--space-5);
-  padding-inline: 56px;
 }
 
 .footer__lead {
@@ -608,7 +651,7 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   background: color-mix(in srgb, var(--coffee-roast) 60%, #000);
   border: 1px solid rgba(245, 236, 210, 0.12);
   border-radius: var(--radius-md);
-  padding: 16px;
+  padding: var(--space-3);
   width: fit-content;
   align-self: start;
   justify-self: end;
@@ -645,7 +688,6 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   padding-bottom: var(--space-5);
   border-top: 1px solid var(--border-inverse);
   padding-top: var(--space-4);
-  padding-inline: 56px;
 }
 
 .footer__socials {
@@ -711,7 +753,6 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 .colophon {
   border-top: 1px solid var(--border-inverse);
   padding-block: var(--space-3);
-  padding-inline: 56px;
   color: var(--text-muted-inv);
   font-size: var(--step-caption);
   display: flex;
@@ -725,6 +766,8 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
   .footer__main { grid-template-columns: 1fr; }
   .footer__bottom { grid-template-columns: 1fr; }
   .footer__meta-pair { justify-content: flex-start; }
+  /* single column: card spans the container instead of hugging the right edge */
+  .footer__note-card { justify-self: stretch; width: auto; }
 }
 @media (max-width: 540px) {
 .footer__meta-pair { flex-direction: column; gap: var(--space-3); }
@@ -733,38 +776,22 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: va
 /* Page motion lives in styles/effects.css (the plug-and-play effects layer).
    base.css keeps layout + component styling only. */
 
-/* ---------- WHAT I DO — full-bleed padding ---------- */
-#what { padding-inline: 56px; }
-
-/* ---------- MOBILE REFINEMENTS ---------- */
+/* ---------- MOBILE REFINEMENTS — vertical rhythm steps down by tier ----------
+   Side insets are handled everywhere by --gutter (see the shared container),
+   so these blocks only touch vertical rhythm. .hero and .ikigai-section aren't
+   .section elements, so they step down explicitly alongside it. */
 @media (max-width: 880px) {
   body::before { height: 1120px; }       /* grid covers the taller stacked hero */
   .section { padding-block: var(--space-5); }
+  .hero { padding-block: var(--space-5) var(--space-4); }
+  .ikigai-section { padding-block: var(--space-5); }
 }
 @media (max-width: 600px) {
   .nav__inner { padding: 10px 14px 10px 18px; }
   .brand { font-size: 1.3rem; }
   .section { padding-block: var(--space-4); }
   .section__head { margin-bottom: var(--space-4); }
+  .hero { padding-block: var(--space-4) var(--space-3); }
+  .ikigai-section { padding-block: var(--space-4); }
   /* .btn-cta responsive → styles/components.css */
-}
-
-/* ---------- FULL-BLEED SECTION PADDING — responsive ---------- */
-@media (max-width: 860px) {
-  .hero,
-  #what,
-  .shelf-inner,
-  .ikigai-section__frame,
-  .footer__main,
-  .footer__bottom,
-  .colophon { padding-inline: 40px; }
-}
-@media (max-width: 540px) {
-  .hero,
-  #what,
-  .shelf-inner,
-  .ikigai-section__frame,
-  .footer__main,
-  .footer__bottom,
-  .colophon { padding-inline: 24px; }
 }

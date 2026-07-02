@@ -21,12 +21,21 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: clamp(16px, 3vh, 32px);
-  /* top padding clears the ~81px sticky site nav so the heading isn't tucked under it */
-  padding: clamp(96px, 13vh, 132px) var(--gutter) clamp(32px, 6vh, 64px);
+  /* top padding clears the ~81px sticky site nav so the heading isn't tucked
+     under it; side insets come from the shared container on the children. */
+  padding: clamp(96px, 13vh, 132px) 0 clamp(32px, 6vh, 64px);
   box-sizing: border-box;
 }
 
-.cap-pin-head { margin: 0; flex: none; }
+/* Heading and card viewport share the site-wide centered container, so the
+   pinned stack lines up with the hero, work, and footer left edges. */
+.cap-pin-head,
+.cap-pin-viewport {
+  width: min(100% - calc(var(--gutter) * 2), var(--container));
+  margin-inline: auto;
+}
+
+.cap-pin-head { flex: none; }
 .cap-pin-head h2 { font-size: var(--step-h2); margin-top: var(--space-1); }
 
 /* the area cards stack within; clips the incoming cards rising from below */
