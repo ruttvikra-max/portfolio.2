@@ -67,8 +67,8 @@ const Masonry = ({
   colorShiftOnHover = false
 }) => {
   const columns = useMedia(
-    ['(min-width:1500px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
-    [3, 3, 2, 2],
+    ['(min-width:1280px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
+    [4, 3, 2, 2],
     1
   )
 

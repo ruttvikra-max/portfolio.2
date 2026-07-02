@@ -6,7 +6,6 @@ import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphe
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline'
 
 import cardGLB from './lanyard-assets/card.glb'
-import lanyard from './lanyard-assets/lanyard.png'
 
 import * as THREE from 'three'
 import './Lanyard.css'
@@ -120,7 +119,11 @@ function Band({
     dir = new THREE.Vector3()
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 6, linearDamping: 6 }
   const { nodes, materials } = useGLTF(cardGLB)
-  const texture = useTexture(lanyardImage || lanyard)
+  // No lanyardImage → solid-color strap (skips the default react-bits
+  // lanyard.png icon texture entirely). useTexture must still be called
+  // unconditionally; blank pixel is a no-op fallback, same pattern as the
+  // front/back card faces below.
+  const texture = useTexture(lanyardImage || BLANK_PIXEL)
   // useTexture must be called unconditionally; use a blank pixel when an image
   // isn't supplied for a given face, then skip compositing it below.
   const frontTex = useTexture(frontImage || BLANK_PIXEL)
@@ -140,8 +143,12 @@ function Band({
     canvas.height = H
     const ctx = canvas.getContext('2d')
     if (!ctx) return baseMap
-    // Keep the original baked atlas for the card edges and any untouched face.
-    ctx.drawImage(baseImg, 0, 0, W, H)
+    // Solid fill instead of the original baked atlas — the atlas carries
+    // react-bits' default branding, which otherwise still shows through the
+    // thin strip below each face (front/back rects don't cover full height)
+    // and along the card's edge/spine.
+    ctx.fillStyle = '#29303D'
+    ctx.fillRect(0, 0, W, H)
 
     const drawFitted = (img, rect) => {
       const rx = rect.x * W
@@ -273,11 +280,10 @@ function Band({
       <mesh ref={band} frustumCulled={false}>
         <meshLineGeometry />
         <meshLineMaterial
-          color="white"
+          color="black"
           depthTest={false}
           resolution={isMobile ? [1000, 2000] : [1000, 1000]}
-          useMap
-          map={texture}
+          {...(lanyardImage && { useMap: true, map: texture })}
           repeat={[-4, 1]}
           lineWidth={lanyardWidth}
         />

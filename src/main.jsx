@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import CardTilt from './components/CardTilt.jsx'
 import CapabilitiesStack from './components/CapabilitiesStack.jsx'
-import Masonry from './components/Masonry.jsx'
+import Bookshelf from './components/Bookshelf.jsx'
 import Lanyard from './components/Lanyard.jsx'
 
 function App() {
@@ -33,8 +33,9 @@ if (stackRoot && !reduceMotion && !fxOff) {
   )
 }
 
-// Bookshelf: masonry grid of real book covers, each linking to an Amazon
-// search for that title (no fabricated product links).
+// Bookshelf: real book covers, each linking to an Amazon search for that
+// title (no fabricated product links). Masonry grid on desktop, swipeable
+// carousel on narrow viewports — see components/Bookshelf.jsx.
 const BOOKS = [
   { id: 'atomic-habits', title: 'Atomic Habits', file: 'Atomic Habit.png' },
   { id: 'attitude', title: 'Attitude', file: 'Attitude.png' },
@@ -56,7 +57,7 @@ if (bookshelfRoot) {
 
   createRoot(bookshelfRoot).render(
     <StrictMode>
-      <Masonry
+      <Bookshelf
         items={items}
         ease="power3.out"
         duration={0.6}
@@ -84,6 +85,7 @@ if (lanyardRoot && !reduceMotion && !fxOff && isWideViewport) {
         position={[0, 2, 13]}
         gravity={[0, -32, 0]}
         frontImage="Assets/source/avatar-sip.png"
+        backImage="Assets/source/Model_pose1.png"
         imageFit="cover"
       />
     </StrictMode>
