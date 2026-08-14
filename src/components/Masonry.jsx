@@ -35,17 +35,24 @@ const useMeasure = () => {
   return [ref, size]
 }
 
-const preloadImages = async urls => {
-  await Promise.all(
+// Book-cover aspect ratio if a src fails to load — a typical portrait cover.
+const FALLBACK_RATIO = 1.5
+
+// Resolves each url's real height/width ratio so grid cells can be sized to
+// match their image exactly, instead of guessing a height up front.
+const loadAspectRatios = async urls => {
+  const entries = await Promise.all(
     urls.map(
       src =>
         new Promise(resolve => {
           const img = new Image()
+          img.onload = () => resolve([src, img.naturalHeight / img.naturalWidth])
+          img.onerror = () => resolve([src, FALLBACK_RATIO])
           img.src = src
-          img.onload = img.onerror = () => resolve()
         })
     )
   )
+  return Object.fromEntries(entries)
 }
 
 const Masonry = ({
@@ -60,13 +67,14 @@ const Masonry = ({
   colorShiftOnHover = false
 }) => {
   const columns = useMedia(
-    ['(min-width:1500px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
-    [3, 3, 2, 2],
+    ['(min-width:1280px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
+    [4, 3, 2, 2],
     1
   )
 
   const [containerRef, { width }] = useMeasure()
   const [imagesReady, setImagesReady] = useState(false)
+  const [aspectRatios, setAspectRatios] = useState({})
 
   const getInitialPosition = item => {
     const containerRect = containerRef.current?.getBoundingClientRect()
@@ -99,11 +107,17 @@ const Masonry = ({
   }
 
   useEffect(() => {
-    preloadImages(items.map(i => i.img)).then(() => setImagesReady(true))
+    let cancelled = false
+    loadAspectRatios(items.map(i => i.img)).then(ratios => {
+      if (cancelled) return
+      setAspectRatios(ratios)
+      setImagesReady(true)
+    })
+    return () => { cancelled = true }
   }, [items])
 
   const grid = useMemo(() => {
-    if (!width) return []
+    if (!width || !imagesReady) return []
 
     const colHeights = new Array(columns).fill(0)
     const columnWidth = width / columns
@@ -111,14 +125,15 @@ const Masonry = ({
     return items.map(child => {
       const col = colHeights.indexOf(Math.min(...colHeights))
       const x = columnWidth * col
-      const height = child.height / 2
+      const ratio = aspectRatios[child.img] ?? FALLBACK_RATIO
+      const height = columnWidth * ratio
       const y = colHeights[col]
 
       colHeights[col] += height
 
       return { ...child, x, y, w: columnWidth, h: height }
     })
-  }, [columns, items, width])
+  }, [columns, items, width, imagesReady, aspectRatios])
 
   // Items are position:absolute, so the container never grows to fit them on
   // its own — without this, the tallest column (e.g. a single mobile column

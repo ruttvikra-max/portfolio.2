@@ -64,13 +64,14 @@
   <!-- Tier 2 React island styles (built by Vite from src/components/*.css → styles/tier2.css) -->
   <link rel="stylesheet" href="styles/tier2.css" />
 
-  <!-- anime.js v4 — self-hosted via node_modules (npm install animejs@4) -->
+  <!-- anime.js v4 + lenis — self-hosted, vendored into /vendor at commit time
+       (not node_modules: that's gitignored and never reaches production). -->
   <script type="importmap">
   {
     "imports": {
-      "animejs": "./node_modules/animejs/dist/bundles/anime.esm.js",
-      "animejs/text": "./node_modules/animejs/dist/modules/text/index.js",
-      "lenis": "./node_modules/lenis/dist/lenis.mjs"
+      "animejs": "./vendor/animejs/dist/bundles/anime.esm.js",
+      "animejs/text": "./vendor/animejs/dist/modules/text/index.js",
+      "lenis": "./vendor/lenis/lenis.mjs"
     }
   }
   </script>
@@ -114,6 +115,7 @@
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
+        <div id="hero-lanyard-root" class="hero-lanyard-root" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -212,8 +214,10 @@
           <!-- Horizontal case study rail -->
           <div class="case-rail">
 
-            <a class="case-card" href="case-study-engine/site/dist/" data-reveal aria-label="Case study: Rules Engine">
-              <div class="case-card__cover"></div>
+            <a class="case-card" href="https://ruttvikra-max.github.io/Case-Study-Engine/" target="_blank" rel="noopener noreferrer" data-reveal aria-label="Case study: Rules Engine (opens in a new tab)">
+              <div class="case-card__cover">
+                <img src="Assets/Case Study Cover/Rules Engine.png" alt="" loading="lazy" />
+              </div>
               <div class="case-card__body">
                 <div class="case-card__top">
                   <span class="case-card__name">Rules Engine</span>
@@ -230,7 +234,9 @@
             </a>
 
             <a class="case-card" href="https://case-study-wheat.vercel.app/" target="_blank" rel="noopener noreferrer" data-reveal aria-label="Case study: Design System Intelligence Engine (opens in a new tab)">
-              <div class="case-card__cover"></div>
+              <div class="case-card__cover">
+                <img src="Assets/Case Study Cover/DSIE.png" alt="" loading="lazy" />
+              </div>
               <div class="case-card__body">
                 <div class="case-card__top">
                   <span class="case-card__name">Design System Intelligence Engine</span>
@@ -335,7 +341,7 @@
       <div class="footer__meta-pair">
         <div class="footer__strip-meta">
           <span class="footer__strip-label">Last updated</span>
-          <span class="footer__strip-value" id="last-updated">July 1st, 2026</span>
+          <span class="footer__strip-value" id="last-updated">July 3rd, 2026</span>
         </div>
         <div class="footer__strip-meta">
           <span class="footer__strip-label">Currently</span>

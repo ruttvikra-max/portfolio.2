@@ -2,7 +2,8 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import CardTilt from './components/CardTilt.jsx'
 import CapabilitiesStack from './components/CapabilitiesStack.jsx'
-import Masonry from './components/Masonry.jsx'
+import Bookshelf from './components/Bookshelf.jsx'
+import Lanyard from './components/Lanyard.jsx'
 
 function App() {
   return <CardTilt />
@@ -32,16 +33,17 @@ if (stackRoot && !reduceMotion && !fxOff) {
   )
 }
 
-// Bookshelf: masonry grid of real book covers, each linking to an Amazon
-// search for that title (no fabricated product links).
+// Bookshelf: real book covers, each linking to an Amazon search for that
+// title (no fabricated product links). Masonry grid on desktop, swipeable
+// carousel on narrow viewports — see components/Bookshelf.jsx.
 const BOOKS = [
-  { id: 'atomic-habits', title: 'Atomic Habits', file: 'Atomic Habit.png', height: 480 },
-  { id: 'attitude', title: 'Attitude', file: 'Attitude.png', height: 400 },
-  { id: 'design-as-art', title: 'Design as Art', file: 'Design as Art.png', height: 440 },
-  { id: 'ikigai', title: 'Ikigai', file: 'Ikigai.png', height: 420 },
-  { id: 'show-your-work', title: 'Show Your Work!', file: 'Show your work.png', height: 460 },
-  { id: 'steal-like-an-artist', title: 'Steal Like an Artist', file: 'Steal like an artist.png', height: 400 },
-  { id: 'graphic-design-bible', title: 'The Graphic Design Bible', file: 'TheGraphic  Bibblie.png', height: 500 },
+  { id: 'atomic-habits', title: 'Atomic Habits', file: 'Atomic Habit.png' },
+  { id: 'attitude', title: 'Attitude', file: 'Attitude.png' },
+  { id: 'design-as-art', title: 'Design as Art', file: 'Design as Art.png' },
+  { id: 'ikigai', title: 'Ikigai', file: 'Ikigai.png' },
+  { id: 'show-your-work', title: 'Show Your Work!', file: 'Show your work.png' },
+  { id: 'steal-like-an-artist', title: 'Steal Like an Artist', file: 'Steal like an artist.png' },
+  { id: 'graphic-design-bible', title: 'The Graphic Design Bible', file: 'TheGraphic  Bibblie.png' },
 ]
 
 const bookshelfRoot = document.getElementById('bookshelf-masonry')
@@ -51,12 +53,11 @@ if (bookshelfRoot) {
     title: b.title,
     img: `Assets/Books/${encodeURIComponent(b.file)}`,
     url: `https://www.amazon.com/s?k=${encodeURIComponent(b.title + ' book')}`,
-    height: b.height,
   }))
 
   createRoot(bookshelfRoot).render(
     <StrictMode>
-      <Masonry
+      <Bookshelf
         items={items}
         ease="power3.out"
         duration={0.6}
@@ -66,6 +67,26 @@ if (bookshelfRoot) {
         hoverScale={0.96}
         blurToFocus
         colorShiftOnHover={false}
+      />
+    </StrictMode>
+  )
+}
+
+// Hero lanyard: desktop only, skipped under reduced-motion (the physics/WebGL
+// canvas isn't worth mounting — even hidden — on narrow viewports or when
+// motion is reduced; the hero falls back to its original one-column layout).
+const isWideViewport = window.matchMedia('(min-width: 861px)').matches
+const lanyardRoot = document.getElementById('hero-lanyard-root')
+if (lanyardRoot && !reduceMotion && !fxOff && isWideViewport) {
+  document.documentElement.classList.add('has-hero-lanyard')
+  createRoot(lanyardRoot).render(
+    <StrictMode>
+      <Lanyard
+        position={[0, 2, 13]}
+        gravity={[0, -32, 0]}
+        frontImage="Assets/source/avatar-sip.png"
+        backImage="Assets/source/Model_pose1.png"
+        imageFit="cover"
       />
     </StrictMode>
   )

@@ -71,7 +71,9 @@
   /* ---------- LAYOUT ---------- */
   --measure: 68ch;          /* readable line length */
   --container: 1160px;
-  --gutter: clamp(20px, 5vw, 64px);
+  /* One gutter drives every section's side inset so edges line up at
+     all widths; max matches the design's original 56px feel. */
+  --gutter: clamp(24px, 5vw, 56px);
 }
 
 /* Motion off → durations collapse, but easings stay valid. */

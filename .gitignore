@@ -3,6 +3,9 @@ node_modules/
 .next/
 dist/
 build/
+# vendor/ mirrors each package's own dist/ folder name so its internal
+# relative imports keep resolving — un-ignore it, it's committed on purpose.
+!vendor/**/dist/
 
 # env / local
 .env*
